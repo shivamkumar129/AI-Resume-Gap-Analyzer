@@ -1,8 +1,7 @@
 const Resume = require("../models/Resume");
 const JobDescription = require("../models/JobDescription");
 const Analysis = require("../models/Analysis");
-// console.log("Analysis:", Analysis);
-// console.log("Analysis.create:", Analysis.create);
+const { analyzeResume } = require("../services/ai.service");
 const createAnalysis = async (req, res) => {
     try {
         const { resumeId, jobDescriptionId } = req.body;
@@ -39,65 +38,10 @@ const createAnalysis = async (req, res) => {
         }
 
         // 4. Temporary mock AI result
-        const analysisResult = {
-            atsScore: 75,
-            compatibilityScore: 72,
-
-            matchedSkills: [
-                "JavaScript",
-                "React",
-                "Node.js",
-                "MongoDB"
-            ],
-
-            missingSkills: [
-                "Docker",
-                "AWS",
-                "TypeScript"
-            ],
-
-            resumeSummary:
-                "Candidate has a strong foundation in JavaScript and full-stack development.",
-
-            strengths: [
-                "JavaScript experience",
-                "Full-stack development",
-                "MongoDB knowledge"
-            ],
-
-            weaknesses: [
-                "Limited cloud experience",
-                "No Docker experience",
-                "TypeScript skills need improvement"
-            ],
-
-            roadmap: [
-                {
-                    skill: "TypeScript",
-                    reason: "Required by the job description",
-                    resources: [
-                        "TypeScript Handbook"
-                    ],
-                    priority: "High"
-                },
-                {
-                    skill: "Docker",
-                    reason: "Useful for containerized application deployment",
-                    resources: [
-                        "Docker Documentation"
-                    ],
-                    priority: "High"
-                },
-                {
-                    skill: "AWS",
-                    reason: "Cloud knowledge is preferred for this role",
-                    resources: [
-                        "AWS Skill Builder"
-                    ],
-                    priority: "Medium"
-                }
-            ]
-        };
+        const analysisResult = await analyzeResume(
+    resume.extractedText,
+    jobDescription.description
+);
 
         // 5. Save analysis
         const analysis = await Analysis.create({
