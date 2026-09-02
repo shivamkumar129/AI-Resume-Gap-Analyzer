@@ -10,21 +10,24 @@ const upload = multer({
     },
 
     fileFilter: (req, file, cb) => {
-
         console.log("Uploaded file:", {
             name: file.originalname,
-            mimetype: file.mimetype
+            mimetype: file.mimetype,
         });
 
-        const isPDF = file.originalname
+        const isPDF =
+            file.mimetype === "application/pdf" ||
+            file.mimetype === "application/octet-stream";
+
+        const hasPDFExtension = file.originalname
             .toLowerCase()
             .endsWith(".pdf");
 
-        if (isPDF) {
-            cb(null, true);
-        } else {
-            cb(new Error("Only PDF files are allowed"));
+        if (isPDF && hasPDFExtension) {
+            return cb(null, true);
         }
+
+        return cb(new Error("Only PDF files are allowed"));
     },
 });
 

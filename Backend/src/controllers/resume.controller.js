@@ -21,13 +21,6 @@ const uploadResume = async (req, res) => {
       });
     }
 
-    // 3. Check MIME type
-    if (req.file.mimetype !== "application/pdf") {
-      return res.status(400).json({
-        message: "Only PDF files are allowed",
-      });
-    }
-
     // 4. Extract PDF text
     const parser = new PDFParse({
       data: req.file.buffer,
