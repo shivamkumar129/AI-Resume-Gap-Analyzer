@@ -3,9 +3,10 @@ const express = require("express");
 const upload = require("../middleware/upload.middleware");
 
 const {
-    uploadResume,
-    getMyResumes,
-    getResumeById
+  uploadResume,
+  getMyResumes,
+  getResumeById,
+  deleteResume
 } = require("../controllers/resume.controller");
 
 const authMiddleware = require("../middleware/auth.middleware");
@@ -27,4 +28,5 @@ router.get(
     '/:id',
     authMiddleware,
     getResumeById);
+    router.delete("/:id", authMiddleware, deleteResume);
 module.exports = router;

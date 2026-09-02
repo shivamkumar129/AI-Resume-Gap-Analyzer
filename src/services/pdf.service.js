@@ -18,7 +18,7 @@ const generateAnalysisPDF = (analysis, res) => {
   doc
     .fontSize(24)
     .font("Helvetica-Bold")
-    .text("AI Resume Gap Analyzer");
+    .text(" Resume Gap Analyzer");
 
   doc
     .moveDown(0.5)
@@ -100,15 +100,43 @@ const generateAnalysisPDF = (analysis, res) => {
 
   // Weaknesses
   addSection(doc, "Weaknesses");
+addList(doc, analysis.weaknesses, "No weaknesses available.");
 
-  addList(
-    doc,
-    analysis.weaknesses,
-    "No weaknesses available."
-  );
+addSection(doc, "Resume Improvement Suggestions");
 
-  // Roadmap
-  addSection(doc, "Personalized Learning Roadmap");
+if (analysis.resumeImprovements?.length) {
+  analysis.resumeImprovements.forEach((item, index) => {
+    doc
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text(`${index + 1}. ${item.section || "Resume Section"}`);
+
+    doc
+      .fontSize(10)
+      .font("Helvetica")
+      .text(`Issue: ${item.issue || "N/A"}`)
+      .text(`How to improve: ${item.suggestion || "N/A"}`);
+
+    if (item.example) {
+      doc
+        .font("Helvetica-Bold")
+        .text("Suggested Example:");
+
+      doc
+        .font("Helvetica")
+        .text(item.example);
+    }
+
+    doc.moveDown(0.6);
+  });
+} else {
+  doc
+    .fontSize(11)
+    .font("Helvetica")
+    .text("No specific resume improvements available.");
+}
+
+addSection(doc, "Personalized Learning Roadmap");
 
   if (analysis.roadmap?.length) {
     analysis.roadmap.forEach((item, index) => {
