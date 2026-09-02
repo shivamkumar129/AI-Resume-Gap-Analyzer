@@ -12,8 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const API_URL = "http://localhost:3000/api/admin/analytics";
-
+const API_URL = `${import.meta.env.VITE_API_URL}/admin/analytics`;
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,7 +48,7 @@ const fetchUsers = async () => {
     setUsersLoading(true);
 
     const response = await axios.get(
-      "http://localhost:3000/api/admin/users",
+      `${import.meta.env.VITE_API_URL}/admin/users`,
       {
         params: {
           page,

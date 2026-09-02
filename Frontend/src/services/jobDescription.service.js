@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/job-descriptions";
+const API_URL = `${import.meta.env.VITE_API_URL}/job-descriptions`;
 
 const createJobDescription = async (title, company, description) => {
     const response = await axios.post(
